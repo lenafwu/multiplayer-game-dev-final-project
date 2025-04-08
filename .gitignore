@@ -96,9 +96,11 @@ Build/*
 Builds/*
 
 # Content folder exceptions (if you want to ignore most content but keep specific files)
-Content/*
-!Content/Developers
-!Content/Collections
+Content/Collections/
+Content/Developers/
+Content/StarterContent/
+Saved/
+*.uasset.TMP
 
 # Add exceptions for specific content you want to track
 # !Content/MyProject
