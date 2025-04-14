@@ -27,7 +27,7 @@ AUS_BaseWeaponProjectile::AUS_BaseWeaponProjectile()
 	Mesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	Mesh->SetRelativeLocation(FVector(-40.f, 0.f, 0.f));
 	Mesh->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticMesh(TEXT("/Game/KayKit/DungeonElements/dagger_common"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticMesh(TEXT("/Game/Models/Axe"));
 
 	if (StaticMesh.Succeeded())
 	{
