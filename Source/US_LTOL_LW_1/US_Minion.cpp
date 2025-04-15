@@ -147,7 +147,7 @@ void AUS_Minion::Chase(APawn *Pawn)
 	bIsChasing = true;
 	GetCharacterMovement()->MaxWalkSpeed = ChaseSpeed;
 	UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), Pawn);
-	DrawDebugSphere(GetWorld(), Pawn->GetActorLocation(), 25.f, 12, FColor::Red, true, 10.f, 0, 2.f);
+	// DrawDebugSphere(GetWorld(), Pawn->GetActorLocation(), 25.f, 12, FColor::Red, true, 10.f, 0, 2.f);
 
 	// Reset chase timeout timer
 	GetWorld()->GetTimerManager().ClearTimer(ChaseTimeoutHandle);

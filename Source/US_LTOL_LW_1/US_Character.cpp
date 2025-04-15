@@ -102,13 +102,13 @@ void AUS_Character::Tick(float DeltaTime)
 		UEngineTypes::ConvertToTraceType(ECC_WorldStatic),
 		false,
 		TArray<AActor *>(),
-		EDrawDebugTrace::ForOneFrame,
+		EDrawDebugTrace::None,
 		HitResult,
 		true);
 
 	if (IsHit && HitResult.GetActor()->GetClass()->ImplementsInterface(UUS_Interactable::StaticClass()))
 	{
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, SphereRadius, 12, FColor::Magenta, false, 1.f);
+		// DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, SphereRadius, 12, FColor::Magenta, false, 1.f);
 		InteractableActor = HitResult.GetActor();
 	}
 	else
