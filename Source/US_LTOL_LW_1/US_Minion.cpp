@@ -11,6 +11,7 @@
 #include "Components/SphereComponent.h"
 #include "US_GameMode.h"
 #include "US_BasePickup.h"
+#include "US_PlayerState.h"
 
 // Sets default values
 AUS_Minion::AUS_Minion()
@@ -116,9 +117,14 @@ void AUS_Minion::OnPawnDetected(APawn *Pawn)
 
 void AUS_Minion::OnBeginOverlap(AActor *OverlappedActor, AActor *OtherActor)
 {
-	if (!OtherActor->IsA<AUS_Character>())
-		return;
-	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Character captured!"));
+	if (auto Character = Cast<AUS_Character>(OtherActor))
+	{
+		// Get the PlayerState and cast it to your custom PlayerState
+		if (auto PlayerState = Cast<AUS_PlayerState>(Character->GetPlayerState()))
+		{
+			PlayerState->ApplyDamage(100.0f);
+		}
+	}
 }
 
 // sets the character speed to the patrolling value and find a reachable point in

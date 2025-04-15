@@ -48,27 +48,68 @@ void AUS_PlayerState::ApplyDamage(float Amount)
         return;
 
     Health -= Amount;
+    OnHealthChanged.Broadcast(Health);
 
     if (Health <= 0)
     {
-        Health = 0;
+        Die();
+    }
+}
 
-        FTimerDelegate RespawnDelegate;
-        RespawnDelegate.BindWeakLambda(this, [this]()
-                                       {
-            if (AGameModeBase* GM = Cast<AGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
-            {
-                if (AController* Controller = Cast<AController>(GetOwner()))
-                {
-                    GM->RestartPlayer(Controller);
-                }
-            } });
+void AUS_PlayerState::Die()
+{
+    // Make sure health is 0
+    Health = 0;
+    OnHealthChanged.Broadcast(Health);
 
-        FTimerHandle RespawnTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, RespawnDelegate, 2.f, false);
+    // Get the character and hide/disable it
+    if (auto Character = Cast<AUS_Character>(GetPawn()))
+    {
+        Character->SetActorHiddenInGame(true);
+        Character->SetActorEnableCollision(false);
+        // Optionally disable input
+        if (auto PC = Cast<APlayerController>(Character->GetController()))
+        {
+            PC->DisableInput(PC);
+        }
     }
 
+    // Start respawn timer
+    GetWorld()->GetTimerManager().SetTimer(
+        RespawnTimerHandle,
+        this,
+        &AUS_PlayerState::Respawn,
+        RespawnDelay,
+        false);
+}
+
+void AUS_PlayerState::Respawn()
+{
+    // Reset health
+    Health = 100.0f;
     OnHealthChanged.Broadcast(Health);
+
+    if (AGameModeBase *GM = Cast<AGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+    {
+        if (AController *Controller = Cast<AController>(GetOwner()))
+        {
+            // Find a random PlayerStart
+            AActor *StartSpot = GM->FindPlayerStart(Controller);
+
+            // Respawn at the chosen PlayerStart
+            APawn *NewPawn = GM->SpawnDefaultPawnFor(Controller, StartSpot);
+
+            if (NewPawn)
+            {
+                // Possess the new pawn and enable input
+                Controller->Possess(NewPawn);
+                if (auto PC = Cast<APlayerController>(Controller))
+                {
+                    PC->EnableInput(PC);
+                }
+            }
+        }
+    }
 }
 
 void AUS_PlayerState::OnRep_Health()
