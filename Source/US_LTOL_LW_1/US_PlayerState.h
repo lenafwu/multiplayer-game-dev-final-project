@@ -33,6 +33,9 @@ protected:
 	UPROPERTY()
 	FTimerHandle RespawnTimerHandle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
+	float RespawnDelay = 3.0f; // Time before respawn
+
 	UFUNCTION()
 	void OnRep_Xp(int32 OldValue) const;
 	UFUNCTION()
@@ -47,8 +50,12 @@ protected:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHealthChanged OnHealthChanged;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
-	float RespawnDelay = 3.0f; // Time before respawn
+protected:
+	UFUNCTION()
+	void Die();
+
+	UFUNCTION()
+	void Respawn();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Experience")
@@ -59,12 +66,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	float GetHealth() const { return Health; }
-
-	UFUNCTION()
-	void Die();
-
-	UFUNCTION()
-	void Respawn();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const override;
 };

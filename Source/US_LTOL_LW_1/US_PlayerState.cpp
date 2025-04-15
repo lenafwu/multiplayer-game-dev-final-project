@@ -3,9 +3,12 @@
 #include "US_PlayerState.h"
 #include "US_Character.h"
 #include "US_CharacterStats.h"
+#include "US_WeaponProjectileComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 
 void AUS_PlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
@@ -107,6 +110,9 @@ void AUS_PlayerState::Respawn()
                 {
                     PC->EnableInput(PC);
                 }
+
+                // The weapon component will initialize itself in BeginPlay
+                // No need to manually reinitialize it here
             }
         }
     }

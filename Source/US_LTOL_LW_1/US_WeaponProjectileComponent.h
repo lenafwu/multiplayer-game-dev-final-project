@@ -6,17 +6,24 @@
 #include "Components/SceneComponent.h"
 #include "US_WeaponProjectileComponent.generated.h"
 
+// Forward declarations
+class AUS_BaseWeaponProjectile;
+class UInputMappingContext;
+class UInputAction;
+class UAnimMontage;
+class AUS_Character;
+
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class US_LTOL_LW_1_API UUS_WeaponProjectileComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<class AUS_BaseWeaponProjectile> ProjectileClass;
+	TSubclassOf<AUS_BaseWeaponProjectile> ProjectileClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext *WeaponMappingContext;
+	UInputMappingContext *WeaponMappingContext;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	class UInputAction *ThrowAction;
+	UInputAction *ThrowAction;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile", meta = (AllowPrivateAccess = "true"))
 	UAnimMontage *ThrowAnimation;
 
@@ -43,7 +50,7 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void Throw_Server();
 
-	UFUNCTION(NetMulticast, Unreliable)
+	UFUNCTION(NetMulticast, Reliable)
 	void Throw_Client();
 
 public:
@@ -51,11 +58,13 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
-	void SetProjectileClass(TSubclassOf<class AUS_BaseWeaponProjectile> NewProjectileClass);
+	void SetProjectileClass(TSubclassOf<AUS_BaseWeaponProjectile> NewProjectileClass);
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void ResetThrowCount();
 
 	UFUNCTION(BlueprintPure, Category = "Projectile")
 	int32 GetRemainingThrows() const { return MaxThrowCount - CurrentThrowCount; }
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const override;
 };

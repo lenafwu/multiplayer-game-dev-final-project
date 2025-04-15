@@ -23,15 +23,21 @@ void UUS_WeaponProjectileComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	const ACharacter *Character = Cast<ACharacter>(GetOwner());
+	// Get our custom character class
+	const AUS_Character *Character = Cast<AUS_Character>(GetOwner());
 	if (!Character)
 		return;
-	if (const APlayerController *PlayerController = Cast<APlayerController>(Character->GetController()))
+
+	// Setup input for both server and client using our custom player controller
+	if (APlayerController *PlayerController = Cast<APlayerController>(Character->GetController()))
 	{
+		// Add the mapping context
 		if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(WeaponMappingContext, 1);
 		}
+
+		// Bind the input action
 		if (UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
 			EnhancedInputComponent->BindAction(ThrowAction, ETriggerEvent::Triggered, this, &UUS_WeaponProjectileComponent::Throw);
@@ -43,8 +49,6 @@ void UUS_WeaponProjectileComponent::BeginPlay()
 void UUS_WeaponProjectileComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UUS_WeaponProjectileComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
@@ -57,8 +61,6 @@ void UUS_WeaponProjectileComponent::Throw()
 {
 	if (CurrentThrowCount >= MaxThrowCount)
 	{
-		// Optional: Show feedback that no throws remaining
-		// GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, TEXT("No throws remaining!"));
 		return;
 	}
 
@@ -83,10 +85,6 @@ void UUS_WeaponProjectileComponent::Throw_Server_Implementation()
 				&UUS_WeaponProjectileComponent::ResetThrowCount,
 				ReplenishDelay,
 				false);
-
-			// Optional: Notify player about replenish countdown
-			// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green,
-			//		 FString::Printf(TEXT("Throws will replenish in %.0f seconds"), ReplenishDelay));
 		}
 
 		Throw_Client();
@@ -130,7 +128,5 @@ void UUS_WeaponProjectileComponent::ResetThrowCount()
 	if (GetOwnerRole() == ROLE_Authority)
 	{
 		CurrentThrowCount = 0;
-		// Optional: Notify player that throws are replenished
-		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Throws replenished!"));
 	}
 }
