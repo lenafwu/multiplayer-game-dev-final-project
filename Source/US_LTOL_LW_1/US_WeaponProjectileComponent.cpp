@@ -58,7 +58,7 @@ void UUS_WeaponProjectileComponent::Throw()
 	if (CurrentThrowCount >= MaxThrowCount)
 	{
 		// Optional: Show feedback that no throws remaining
-		GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, TEXT("No throws remaining!"));
+		// GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, TEXT("No throws remaining!"));
 		return;
 	}
 
@@ -85,8 +85,8 @@ void UUS_WeaponProjectileComponent::Throw_Server_Implementation()
 				false);
 
 			// Optional: Notify player about replenish countdown
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green,
-											 FString::Printf(TEXT("Throws will replenish in %.0f seconds"), ReplenishDelay));
+			// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green,
+			//		 FString::Printf(TEXT("Throws will replenish in %.0f seconds"), ReplenishDelay));
 		}
 
 		Throw_Client();
@@ -131,6 +131,6 @@ void UUS_WeaponProjectileComponent::ResetThrowCount()
 	{
 		CurrentThrowCount = 0;
 		// Optional: Notify player that throws are replenished
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Throws replenished!"));
+		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Throws replenished!"));
 	}
 }

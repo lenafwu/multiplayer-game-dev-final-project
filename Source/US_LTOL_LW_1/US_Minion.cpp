@@ -107,7 +107,7 @@ void AUS_Minion::OnPawnDetected(APawn *Pawn)
 {
 	if (!Pawn->IsA<AUS_Character>())
 		return;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Character detected!"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Character detected!"));
 	if (GetCharacterMovement()->MaxWalkSpeed != ChaseSpeed)
 	{
 		Chase(Pawn);
@@ -118,7 +118,7 @@ void AUS_Minion::OnBeginOverlap(AActor *OverlappedActor, AActor *OtherActor)
 {
 	if (!OtherActor->IsA<AUS_Character>())
 		return;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Character captured!"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Character captured!"));
 }
 
 // sets the character speed to the patrolling value and find a reachable point in
@@ -194,7 +194,7 @@ void AUS_Minion::OnChaseTimeout()
 
 void AUS_Minion::OnHearNoise(APawn *PawnInstigator, const FVector &Location, float Volume)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Noise detected!"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Noise detected!"));
 	GoToLocation(Location);
 	UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), PatrolLocation);
 }
@@ -214,14 +214,14 @@ void AUS_Minion::OnDamage(AActor *DamagedActor, float Damage, const UDamageType 
 		return;
 
 	// Debug message to verify damage is being received
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red,
-									 FString::Printf(TEXT("Minion took %.1f damage! Health: %.1f"), Damage, Health));
+	// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red,
+	//  FString::Printf(TEXT("Minion took %.1f damage! Health: %.1f"), Damage, Health));
 
 	Health -= Damage;
 	if (Health <= 0)
 	{
 		// Debug message to verify death condition
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("Minion died!"));
+		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("Minion died!"));
 
 		if (SpawnedPickup)
 		{

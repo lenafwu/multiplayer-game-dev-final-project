@@ -68,9 +68,9 @@ void AUS_BaseWeaponProjectile::OnHit(UPrimitiveComponent *HitComponent, AActor *
 	}
 
 	// Add debug message
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow,
-									 FString::Printf(TEXT("Projectile hit: %s with damage: %.1f"),
-													 *OtherActor->GetName(), ComputedDamage));
+	// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow,
+	// 								 FString::Printf(TEXT("Projectile hit: %s with damage: %.1f"),
+	// 												 *OtherActor->GetName(), ComputedDamage));
 
 	if (OtherActor && OtherActor != this)
 	{
@@ -78,8 +78,8 @@ void AUS_BaseWeaponProjectile::OnHit(UPrimitiveComponent *HitComponent, AActor *
 		const float ActualDamage = OtherActor->TakeDamage(ComputedDamage, DamageEvent, GetInstigatorController(), this);
 
 		// Add debug message for actual damage applied
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange,
-										 FString::Printf(TEXT("Applied damage: %.1f"), ActualDamage));
+		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange,
+		// 								 FString::Printf(TEXT("Applied damage: %.1f"), ActualDamage));
 	}
 	Destroy();
 }

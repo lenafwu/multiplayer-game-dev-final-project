@@ -149,7 +149,7 @@ void AUS_Character::SetupPlayerInputComponent(UInputComponent *PlayerInputCompon
 void AUS_Character::Move(const FInputActionValue &Value)
 {
 	const auto MovementVector = Value.Get<FVector2D>();
-	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Yellow, FString::Printf(TEXT("MovementVector: %s"), *MovementVector.ToString()));
+	// GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Yellow, FString::Printf(TEXT("MovementVector: %s"), *MovementVector.ToString()));
 	if (Controller != nullptr)
 	{
 		const auto Rotation = Controller->GetControlRotation();
@@ -164,7 +164,7 @@ void AUS_Character::Move(const FInputActionValue &Value)
 void AUS_Character::Look(const FInputActionValue &Value)
 {
 	const auto LookAxisVector = Value.Get<FVector2D>();
-	GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("LookAxisVector: %s"), *LookAxisVector.ToString()));
+	// GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("LookAxisVector: %s"), *LookAxisVector.ToString()));
 	if (Controller != nullptr)
 	{
 		AddControllerYawInput(LookAxisVector.X);
@@ -174,7 +174,7 @@ void AUS_Character::Look(const FInputActionValue &Value)
 
 void AUS_Character::SprintStart(const FInputActionValue &Value)
 {
-	GEngine->AddOnScreenDebugMessage(2, 5.f, FColor::Blue, TEXT("SprintStart"));
+	// GEngine->AddOnScreenDebugMessage(2, 5.f, FColor::Blue, TEXT("SprintStart"));
 	// // GetCharacterMovement()->MaxWalkSpeed = 3000.f;
 	// if (GetCharacterStats())
 	// {
@@ -186,7 +186,7 @@ void AUS_Character::SprintStart(const FInputActionValue &Value)
 
 void AUS_Character::SprintEnd(const FInputActionValue &Value)
 {
-	GEngine->AddOnScreenDebugMessage(2, 5.f, FColor::Blue, TEXT("SprintEnd"));
+	// GEngine->AddOnScreenDebugMessage(2, 5.f, FColor::Blue, TEXT("SprintEnd"));
 	// // GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	// if (GetCharacterStats())
 	// {
@@ -198,7 +198,7 @@ void AUS_Character::SprintEnd(const FInputActionValue &Value)
 
 void AUS_Character::Interact(const FInputActionValue &Value)
 {
-	GEngine->AddOnScreenDebugMessage(3, 5.f, FColor::Red, TEXT("Interact"));
+	// GEngine->AddOnScreenDebugMessage(3, 5.f, FColor::Red, TEXT("Interact"));
 
 	Interact_Server();
 }
